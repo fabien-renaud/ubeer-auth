@@ -1,0 +1,31 @@
+version: '3.9'
+
+networks:
+  ubeer-network: {}
+
+services:
+  ubeer-web-client:
+    container_name: ubeer-web-client
+    image: node:16
+    working_dir: /app
+    command: bash -c "npm ci && npm start"
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+    networks:
+      - ubeer-network
+    ports:
+      - '20080:20080'
+    volumes:
+      - ./web-client:/app
+
+  ubeer-api:
+    container_name: ubeer-api
+    image: node:16
+    working_dir: /app
+    command: bash -c "npm ci && npm start"
+    networks:
+      - ubeer-network
+    ports:
+      - '20000:20000'
+    volumes:
+      - ./api:/app
