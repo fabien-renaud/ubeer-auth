@@ -7,8 +7,8 @@ function App() {
     const [accessToken, setAccessToken] = useState();
 
     useEffect(() => {
-        getAccessTokenSilently().then((token) => setAccessToken(token));
-    });
+        isAuthenticated && getAccessTokenSilently().then((token) => setAccessToken(token));
+    }, [isAuthenticated]);
 
     if (isLoading) {
         return <div>Loading ...</div>;
@@ -17,9 +17,15 @@ function App() {
     return (
         <div className="App">
             <h1>Ubeer</h1>
-            <p>Bonjour {user.name}</p>
-            <p>Token : {accessToken}</p>
-            {isAuthenticated ? <LogoutButton /> : <LoginButton />}
+            {isAuthenticated ? (
+                <>
+                    <p>Bonjour {user.name}</p>
+                    <p>Token : {accessToken}</p>
+                    <LogoutButton />
+                </>
+            ) : (
+                <LoginButton />
+            )}
         </div>
     );
 }
