@@ -12,7 +12,7 @@ cd api && npm ci && npm start
 cd web-client && npm ci && npm start
 ```
 
-With Docker
+With Docker # FIXME
 
 ```shell
 docker-compose up -d

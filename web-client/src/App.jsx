@@ -3,11 +3,13 @@ import {useAuth0} from '@auth0/auth0-react';
 import {useEffect, useState} from 'react';
 
 function App() {
-    const {getAccessTokenSilently, isAuthenticated, isLoading, user} = useAuth0();
+    const {getAccessTokenSilently, getIdTokenClaims, isAuthenticated, isLoading, user} = useAuth0();
     const [accessToken, setAccessToken] = useState();
+    const [idTokenClaims, setIdTokenClaims] = useState();
 
     useEffect(() => {
         isAuthenticated && getAccessTokenSilently().then((token) => setAccessToken(token));
+        isAuthenticated && getIdTokenClaims().then((claims) => setIdTokenClaims(claims));
     }, [isAuthenticated]);
 
     if (isLoading) {
@@ -21,6 +23,7 @@ function App() {
                 <>
                     <p>Bonjour {user.name}</p>
                     <p>Token : {accessToken}</p>
+                    <p>Id : {idTokenClaims && JSON.stringify(idTokenClaims)}</p>
                     <LogoutButton />
                 </>
             ) : (
